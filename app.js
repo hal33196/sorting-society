@@ -19,7 +19,7 @@ const resultCard = document.getElementById("resultCard");
 const debugPre = document.getElementById("debug");
 
 let current = 0;
-let selections = Array(QUESTIONS.length).fill(null); // answer index per question
+let selections = []; // initialize empty first
 
 function show(el){
   [screenStart, screenQuiz, screenResult].forEach(s => s.classList.add("hidden"));
