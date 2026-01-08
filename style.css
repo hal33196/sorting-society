@@ -1,0 +1,47 @@
+:root{
+  --bg:#f6f7fb; --card:#ffffff; --text:#14161a; --muted:#5b6472;
+  --border:#e6e9f0; --primary:#2f6fed; --primary2:#1f55c5;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+.app{max-width:860px;margin:0 auto;padding:28px 16px 40px}
+.header h1{margin:0 0 6px;font-size:34px;letter-spacing:-0.02em}
+.sub{margin:0 0 18px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 18px 16px;box-shadow:0 6px 18px rgba(20,22,26,0.06)}
+.card + .card{margin-top:14px}
+.hidden{display:none}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.progress{flex:1;height:10px;background:var(--border);border-radius:999px;overflow:hidden}
+.bar{height:100%;background:var(--primary);border-radius:999px}
+.count{min-width:140px;text-align:right;color:var(--muted);font-size:14px}
+.qtext{margin:0 0 14px;font-size:22px;line-height:1.25}
+.answers{display:grid;gap:10px}
+.answerBtn{
+  width:100%; text-align:left; padding:12px 12px; border-radius:12px;
+  border:1px solid var(--border); background:#fff; cursor:pointer;
+  transition:transform .02s ease, border-color .12s ease, box-shadow .12s ease;
+  font-size:16px; line-height:1.25;
+}
+.answerBtn:hover{border-color:#c9d4ff; box-shadow:0 6px 14px rgba(47,111,237,.12)}
+.answerBtn.selected{border-color:var(--primary); box-shadow:0 0 0 3px rgba(47,111,237,.15)}
+.nav{display:flex;gap:10px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+button{border:0;border-radius:12px;padding:10px 14px;font-size:15px;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.primary{background:var(--primary);color:white}
+.primary:hover{background:var(--primary2)}
+.ghost{background:#eef2ff;color:#21305a}
+.ghost:hover{background:#e2e9ff}
+.resultGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 12px}
+@media (max-width:620px){.resultGrid{grid-template-columns:1fr}}
+.pill{border:1px solid var(--border);border-radius:14px;padding:10px 12px;background:#fff}
+.pillLabel{font-size:12px;color:var(--muted)}
+.pillValue{font-size:18px;font-weight:650;margin-top:2px}
+.resultCard{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff}
+.resultCard h3{margin:0 0 8px}
+.resultCard p{margin:0 0 10px;color:var(--muted)}
+.resultCard ul{margin:8px 0 0 18px;color:var(--muted)}
+.details{margin-top:12px}
+.details summary{cursor:pointer;color:var(--primary);font-weight:600}
+pre{white-space:pre-wrap;word-break:break-word;background:#0f172a;color:#e2e8f0;border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.08)}
+.footer{margin-top:16px;text-align:center;color:var(--muted)}
+.fine{color:var(--muted);font-size:13px;margin-top:10px}

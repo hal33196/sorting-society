@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sorting Society</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="app" id="app">
+    <header class="header">
+      <h1>Sorting Society</h1>
+      <p class="sub">A sociology-inspired sorting quiz that estimates your <strong>class position</strong> and <strong>policy orientation</strong>.</p>
+    </header>
+
+    <section class="card" id="screenStart">
+      <h2>Before you start</h2>
+      <ul>
+        <li>This is a learning game, not a diagnostic tool.</li>
+        <li>Your result reflects patterns in your answers, not your worth.</li>
+        <li>It takes about 4–6 minutes.</li>
+      </ul>
+      <button class="primary" id="startBtn">Start the quiz</button>
+    </section>
+
+    <section class="card hidden" id="screenQuiz" aria-live="polite">
+      <div class="meta">
+        <div class="progress"><div class="bar" id="progressBar" style="width:0%"></div></div>
+        <div class="count" id="progressText">Question 1 of 25</div>
+      </div>
+
+      <h2 class="qtext" id="qText"></h2>
+      <div class="answers" id="answers"></div>
+
+      <div class="nav">
+        <button class="ghost" id="backBtn" disabled>Back</button>
+        <button class="primary" id="nextBtn" disabled>Next</button>
+      </div>
+    </section>
+
+    <section class="card hidden" id="screenResult">
+      <h2>Your result</h2>
+      <div class="resultGrid">
+        <div class="pill">
+          <div class="pillLabel">Class</div>
+          <div class="pillValue" id="classLabel"></div>
+        </div>
+        <div class="pill">
+          <div class="pillLabel">Policy orientation</div>
+          <div class="pillValue" id="polLabel"></div>
+        </div>
+      </div>
+
+      <div class="resultCard" id="resultCard"></div>
+
+      <details class="details">
+        <summary>See how the quiz scored (for transparency)</summary>
+        <pre id="debug"></pre>
+      </details>
+
+      <div class="nav">
+        <button class="ghost" id="restartBtn">Restart</button>
+        <button class="ghost" id="copyBtn">Copy share text</button>
+      </div>
+      <p class="fine">Tip: host on GitHub Pages/Netlify for a shareable link.</p>
+    </section>
+
+    <footer class="footer">
+      <small>Built for SOC101 learning activities.</small>
+    </footer>
+  </main>
+
+  <script src="js/questions.js"></script>
+  <script src="js/profiles.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
