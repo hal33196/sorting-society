@@ -87,10 +87,7 @@ function finish(){
 }
 
 startBtn.addEventListener("click", () => {
-  current = 0;
-  selections = Array(QUESTIONS.length).fill(null);
-  show(screenQuiz);
-  render();
+   alert("Start button click works");
 });
 
 backBtn.addEventListener("click", () => {
