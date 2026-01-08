@@ -1,4 +1,4 @@
-console.log("✅ app.js loaded");
+alert("app.js loaded");
 
 const screenStart = document.getElementById("screenStart");
 const screenQuiz = document.getElementById("screenQuiz");
