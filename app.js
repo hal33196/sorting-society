@@ -1,3 +1,5 @@
+console.log("✅ app.js loaded");
+
 const screenStart = document.getElementById("screenStart");
 const screenQuiz = document.getElementById("screenQuiz");
 const screenResult = document.getElementById("screenResult");
