@@ -37,7 +37,7 @@ function render(){
     const btn = document.createElement("button");
     btn.className = "answerBtn";
     btn.type = "button";
-    btn.textContent = a.text;
+    btn.textContent = a.label;
 
     if (selections[current] === idx) btn.classList.add("selected");
 
@@ -53,7 +53,7 @@ function render(){
   });
 
   progressText.textContent = `Question ${current + 1} of ${QUESTIONS.length}`;
-  progressBar.style.width = `${Math.round((current) / (QUESTIONS.length) * 100)}%`;
+  progressBar.style.width = `${Math.round((current + 1) / (QUESTIONS.length) * 100)}%`;
 
   backBtn.disabled = current === 0;
   nextBtn.disabled = selections[current] === null;
@@ -87,8 +87,15 @@ function finish(){
 }
 
 startBtn.addEventListener("click", () => {
-   alert("Start button click works");
+  console.log("Start button click works");
+
+  current = 0;
+  selections = Array(QUESTIONS.length).fill(null);
+
+  show(screenQuiz);
+  render();
 });
+
 
 backBtn.addEventListener("click", () => {
   if (current > 0) current -= 1;
