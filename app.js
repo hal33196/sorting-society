@@ -1,5 +1,6 @@
-alert("app.js loaded");
+// app.js
 
+// --- DOM refs ---
 const screenStart = document.getElementById("screenStart");
 const screenQuiz = document.getElementById("screenQuiz");
 const screenResult = document.getElementById("screenResult");
@@ -20,82 +21,104 @@ const polLabel = document.getElementById("polLabel");
 const resultCard = document.getElementById("resultCard");
 const debugPre = document.getElementById("debug");
 
+// --- state ---
 let current = 0;
-let selections = Array(QUESTIONS.length).fill(null);
+let selections = Array.isArray(window.QUESTIONS || QUESTIONS)
+  ? Array((window.QUESTIONS || QUESTIONS).length).fill(null)
+  : [];
 
-function show(el){
-  [screenStart, screenQuiz, screenResult].forEach(s => s.classList.add("hidden"));
+// Use global QUESTIONS from questions.js
+const QUESTIONS_DATA = window.QUESTIONS || QUESTIONS;
+
+// --- helpers ---
+function show(el) {
+  [screenStart, screenQuiz, screenResult].forEach((s) => s.classList.add("hidden"));
   el.classList.remove("hidden");
 }
 
-function render(){
-  const q = QUESTIONS[current];
-  qText.textContent = q.text;
+function render() {
+  const q = QUESTIONS_DATA[current];
+  if (!q) return;
 
+  // Question text
+  qText.textContent = q.text ?? "";
+
+  // Answers
   answersDiv.innerHTML = "";
-  q.answers.forEach((a, idx) => {
+  (q.answers || []).forEach((a, idx) => {
     const btn = document.createElement("button");
     btn.className = "answerBtn";
     btn.type = "button";
-    btn.textContent = a.label;
+
+    // Your data uses a.text
+    btn.textContent = a?.text ?? "(missing answer text)";
 
     if (selections[current] === idx) btn.classList.add("selected");
 
     btn.addEventListener("click", () => {
       selections[current] = idx;
-      // re-render selection styles
-      [...answersDiv.querySelectorAll(".answerBtn")].forEach(b => b.classList.remove("selected"));
+
+      // Update selection styles
+      [...answersDiv.querySelectorAll(".answerBtn")].forEach((b) => b.classList.remove("selected"));
       btn.classList.add("selected");
+
       nextBtn.disabled = false;
     });
 
     answersDiv.appendChild(btn);
   });
 
-  progressText.textContent = `Question ${current + 1} of ${QUESTIONS.length}`;
-  progressBar.style.width = `${Math.round((current + 1) / (QUESTIONS.length) * 100)}%`;
+  // Progress
+  progressText.textContent = `Question ${current + 1} of ${QUESTIONS_DATA.length}`;
+  progressBar.style.width = `${Math.round(((current + 1) / QUESTIONS_DATA.length) * 100)}%`;
 
+  // Nav buttons
   backBtn.disabled = current === 0;
   nextBtn.disabled = selections[current] === null;
-  nextBtn.textContent = (current === QUESTIONS.length - 1) ? "See results" : "Next";
+  nextBtn.textContent = current === QUESTIONS_DATA.length - 1 ? "See results" : "Next";
 }
 
-function collectResponses(){
-  const responses = [];
-  selections.forEach((aIdx, qIdx) => {
-    responses.push({ questionIndex: qIdx, answerIndex: aIdx });
-  });
-  return responses;
+function collectResponses() {
+  return selections.map((aIdx, qIdx) => ({
+    questionIndex: qIdx,
+    answerIndex: aIdx,
+  }));
 }
 
-function finish(){
+function finish() {
   const responses = collectResponses();
+
+  // computeResult must come from scoring.js
   const { classKey, polKey, classScores, polScores } = computeResult(responses);
 
-  classLabel.textContent = CLASS_LABELS[classKey];
-  polLabel.textContent = POL_LABELS[polKey];
+  // These must come from profiles/scoring (depending on your files)
+  classLabel.textContent = CLASS_LABELS[classKey] ?? classKey;
+  polLabel.textContent = POL_LABELS[polKey] ?? polKey;
+
+  // buildProfileHTML must come from profiles.js
   resultCard.innerHTML = buildProfileHTML(classKey, polKey);
 
-  const debugObj = {
-    class: classScores,
-    policy: polScores,
-    result: { classKey, polKey }
-  };
-  debugPre.textContent = JSON.stringify(debugObj, null, 2);
+  debugPre.textContent = JSON.stringify(
+    {
+      class: classScores,
+      policy: polScores,
+      result: { classKey, polKey },
+    },
+    null,
+    2
+  );
 
   show(screenResult);
 }
 
+// --- events ---
 startBtn.addEventListener("click", () => {
-  console.log("Start button click works");
-
   current = 0;
-  selections = Array(QUESTIONS.length).fill(null);
+  selections = Array(QUESTIONS_DATA.length).fill(null);
 
   show(screenQuiz);
   render();
 });
-
 
 backBtn.addEventListener("click", () => {
   if (current > 0) current -= 1;
@@ -105,7 +128,7 @@ backBtn.addEventListener("click", () => {
 nextBtn.addEventListener("click", () => {
   if (selections[current] === null) return;
 
-  if (current < QUESTIONS.length - 1){
+  if (current < QUESTIONS_DATA.length - 1) {
     current += 1;
     render();
   } else {
@@ -115,12 +138,21 @@ nextBtn.addEventListener("click", () => {
 });
 
 restartBtn.addEventListener("click", () => {
+  current = 0;
+  selections = Array(QUESTIONS_DATA.length).fill(null);
+
+  // Reset result UI bits (optional but tidy)
+  classLabel.textContent = "";
+  polLabel.textContent = "";
+  resultCard.innerHTML = "";
+  debugPre.textContent = "";
+
   show(screenStart);
 });
 
 copyBtn.addEventListener("click", async () => {
   const text = `Sorting Society result: ${classLabel.textContent} + ${polLabel.textContent}`;
-  try{
+  try {
     await navigator.clipboard.writeText(text);
     copyBtn.textContent = "Copied!";
     setTimeout(() => {
