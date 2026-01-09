@@ -21,7 +21,7 @@ const resultCard = document.getElementById("resultCard");
 const debugPre = document.getElementById("debug");
 
 let current = 0;
-let selections = []; // initialize empty first
+let selections = Array(QUESTIONS.length).fill(null);
 
 function show(el){
   [screenStart, screenQuiz, screenResult].forEach(s => s.classList.add("hidden"));
@@ -116,8 +116,10 @@ copyBtn.addEventListener("click", async () => {
   try{
     await navigator.clipboard.writeText(text);
     copyBtn.textContent = "Copied!";
-    setTimeout(() => copyBtn.textContent = "Copy share text", 1200);
-  }catch(e){
+    setTimeout(() => {
+      copyBtn.textContent = "Copy share text";
+    }, 1200);
+  } catch (e) {
     alert(text);
   }
 });
