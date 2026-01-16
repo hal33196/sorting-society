@@ -23,6 +23,10 @@ const debugPre = document.getElementById("debug");
 
 // Scan overlay
 const scanOverlay = document.getElementById("scanOverlay");
+if (scanOverlay) {
+  scanOverlay.classList.add("hidden");
+  scanOverlay.setAttribute("aria-hidden", "true");
+}
 const scanSub = document.getElementById("scanSub");
 const scanBarFill = document.getElementById("scanBarFill");
 
