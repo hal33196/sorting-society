@@ -111,7 +111,7 @@ function finish() {
   // Apply combined theme: theme-<classKey>-<polKey>
 document.body.className = document.body.className
   .split(" ")
-  .filter(c => !c.startsWith("theme-"))
+  .filter(c => !(c.startsWith("theme-") || c === "theme-default"))
   .join(" ")
   .trim();
 
@@ -163,8 +163,13 @@ restartBtn.addEventListener("click", () => {
     .join(" ")
     .trim();
 
+    // Restore default world theme
+  document.body.classList.add("theme-default");
+
   show(screenStart);
 });
+
+
 copyBtn.addEventListener("click", async () => {
   const text = `Sorting Society result: ${classLabel.textContent} + ${polLabel.textContent}`;
   try {
@@ -180,3 +185,4 @@ copyBtn.addEventListener("click", async () => {
 
 // Initial view
 show(screenStart);
+document.body.classList.add("theme-default");
