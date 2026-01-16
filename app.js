@@ -108,7 +108,16 @@ function finish() {
     2
   );
 
-  show(screenResult);
+  // Apply combined theme: theme-<classKey>-<polKey>
+document.body.className = document.body.className
+  .split(" ")
+  .filter(c => !c.startsWith("theme-"))
+  .join(" ")
+  .trim();
+
+document.body.classList.add(`theme-${classKey}-${polKey}`);
+  
+show(screenResult);
 }
 
 // --- events ---
@@ -141,15 +150,21 @@ restartBtn.addEventListener("click", () => {
   current = 0;
   selections = Array(QUESTIONS_DATA.length).fill(null);
 
-  // Reset result UI bits (optional but tidy)
+  // Reset result UI bits
   classLabel.textContent = "";
   polLabel.textContent = "";
   resultCard.innerHTML = "";
   debugPre.textContent = "";
 
+  // Remove any result-based theme classes
+  document.body.className = document.body.className
+    .split(" ")
+    .filter(c => !c.startsWith("theme-"))
+    .join(" ")
+    .trim();
+
   show(screenStart);
 });
-
 copyBtn.addEventListener("click", async () => {
   const text = `Sorting Society result: ${classLabel.textContent} + ${polLabel.textContent}`;
   try {
