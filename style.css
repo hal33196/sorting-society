@@ -362,3 +362,117 @@ body[class*="-mixed"]{
   letter-spacing:.06em;
   text-transform:uppercase;
 }
+
+/* ======================================
+   VISIBILITY BOOST (answers + results)
+   Paste at END of style.css
+   ====================================== */
+
+/* Bigger question + tighter readability */
+.qtext{
+  font-size: 22px;
+  line-height: 1.35;
+  letter-spacing: .02em;
+}
+
+/* Answer buttons: larger text, more contrast */
+.answerBtn{
+  font-size: 16px;
+  line-height: 1.35;
+  padding: 14px 14px;
+}
+
+/* Pre-classification (light) — clearer borders */
+body.theme-default .answerBtn{
+  background: #ffffff;
+  border: 2px solid rgba(0,0,0,.65);
+}
+
+/* Post-classification (dark) — high contrast cards */
+body[class*="theme-"]:not(.theme-default) .answerBtn{
+  background: #111;
+  border: 2px solid rgba(255,255,255,.35);
+  color: rgba(255,255,255,.92);
+}
+
+/* Hover: obvious but still “cold” */
+body[class*="theme-"]:not(.theme-default) .answerBtn:hover{
+  background: #161616;
+  border-color: rgba(255,255,255,.55);
+}
+
+/* Selected: strong highlight + left “authority bar” */
+.answerBtn.selected{
+  position: relative;
+  font-weight: 800;
+  background: #d9d9d9;
+  border-color: #000;
+}
+
+body[class*="theme-"]:not(.theme-default) .answerBtn.selected{
+  background: #1b1b1b;
+  border-color: rgba(255,255,255,.85);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.12);
+}
+
+/* Left bar = “official mark” */
+.answerBtn.selected::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:10px;
+  background: #000;
+}
+
+body[class*="theme-"]:not(.theme-default) .answerBtn.selected::before{
+  background: rgba(255,255,255,.9);
+}
+
+/* Make result tiles more readable */
+.pill{
+  padding: 14px 14px;
+  border-width: 2px;
+}
+
+.pillLabel{
+  font-size: 12px;
+  opacity: .9;
+}
+
+.pillValue{
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  margin-top: 6px;
+}
+
+/* Make the result card stand out */
+.resultCard{
+  border-width: 2px;
+  padding: 18px;
+}
+
+body[class*="theme-"]:not(.theme-default) .resultCard{
+  background: #0f0f0f;
+  border-color: rgba(255,255,255,.55);
+}
+
+/* Stamp more visible */
+#screenResult .resultCard::after{
+  border-color: rgba(255,255,255,.75);
+  color: rgba(255,255,255,.92);
+  background: rgba(0,0,0,.88);
+}
+
+/* Buttons clearer */
+button{
+  font-weight: 900;
+  border-width: 2px;
+}
+
+body[class*="theme-"]:not(.theme-default) button.ghost{
+  background: #d9d9d9;
+  color: #111;
+}
