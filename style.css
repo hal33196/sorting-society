@@ -1,145 +1,210 @@
+/* ================================
+   Base variables & reset
+   ================================ */
+
 :root{
-  --bg:#f6f7fb; --card:#ffffff; --text:#14161a; --muted:#5b6472;
-  --border:#e6e9f0; --primary:#2f6fed; --primary2:#1f55c5;
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --text:#14161a;
+  --muted:#5b6472;
+  --border:#e6e9f0;
+
+  /* Fallback accents */
+  --accent:#2f6fed;
+  --accent2:#1f55c5;
+  --tint: rgba(47,111,237,.10);
+
+  --shadow: 0 10px 28px rgba(20,22,26,.10);
 }
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+
+*{ box-sizing:border-box }
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition: background .25s ease, color .25s ease;
+}
+
+/* ================================
+   Layout
+   ================================ */
+
 .app{max-width:860px;margin:0 auto;padding:28px 16px 40px}
 .header h1{margin:0 0 6px;font-size:34px;letter-spacing:-0.02em}
 .sub{margin:0 0 18px;color:var(--muted)}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 18px 16px;box-shadow:0 6px 18px rgba(20,22,26,0.06)}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px 18px 16px;
+  box-shadow:var(--shadow);
+}
 .card + .card{margin-top:14px}
 .hidden{display:none}
-.meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-.progress{flex:1;height:10px;background:var(--border);border-radius:999px;overflow:hidden}
-.bar{height:100%;background:var(--primary);border-radius:999px}
-.count{min-width:140px;text-align:right;color:var(--muted);font-size:14px}
-.qtext{margin:0 0 14px;font-size:22px;line-height:1.25}
-.answers{display:grid;gap:10px}
-.answerBtn{
-  width:100%; text-align:left; padding:12px 12px; border-radius:12px;
-  border:1px solid var(--border); background:#fff; cursor:pointer;
-  transition:transform .02s ease, border-color .12s ease, box-shadow .12s ease;
-  font-size:16px; line-height:1.25;
-}
-.answerBtn:hover{border-color:#c9d4ff; box-shadow:0 6px 14px rgba(47,111,237,.12)}
-.answerBtn.selected{border-color:var(--primary); box-shadow:0 0 0 3px rgba(47,111,237,.15)}
-.nav{display:flex;gap:10px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
-button{border:0;border-radius:12px;padding:10px 14px;font-size:15px;cursor:pointer}
-button:disabled{opacity:.5;cursor:not-allowed}
-.primary{background:var(--primary);color:white}
-.primary:hover{background:var(--primary2)}
-.ghost{background:#eef2ff;color:#21305a}
-.ghost:hover{background:#e2e9ff}
-.resultGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 12px}
-@media (max-width:620px){.resultGrid{grid-template-columns:1fr}}
-.pill{border:1px solid var(--border);border-radius:14px;padding:10px 12px;background:#fff}
-.pillLabel{font-size:12px;color:var(--muted)}
-.pillValue{font-size:18px;font-weight:650;margin-top:2px}
-.resultCard{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff}
-.resultCard h3{margin:0 0 8px}
-.resultCard p{margin:0 0 10px;color:var(--muted)}
-.resultCard ul{margin:8px 0 0 18px;color:var(--muted)}
-.details{margin-top:12px}
-.details summary{cursor:pointer;color:var(--primary);font-weight:600}
-pre{white-space:pre-wrap;word-break:break-word;background:#0f172a;color:#e2e8f0;border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.08)}
+
 .footer{margin-top:16px;text-align:center;color:var(--muted)}
 .fine{color:var(--muted);font-size:13px;margin-top:10px}
 
-/* ==================================
-   Result Themes (class + policy)
-   body class: theme-<class>-<policy>
-   ================================== */
+/* ================================
+   Quiz UI
+   ================================ */
 
+.meta{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.progress{flex:1;height:10px;background:var(--border);border-radius:999px;overflow:hidden}
+.bar{height:100%;background:var(--accent);border-radius:999px}
+.count{min-width:140px;text-align:right;color:var(--muted);font-size:14px}
+
+.qtext{margin:0 0 14px;font-size:22px;line-height:1.25}
+
+.answers{display:grid;gap:10px}
+
+.answerBtn{
+  width:100%;
+  text-align:left;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#fff;
+  cursor:pointer;
+  font-size:16px;
+  transition:border-color .12s ease, box-shadow .12s ease;
+}
+.answerBtn:hover{
+  border-color: rgba(17,24,39,.18);
+  box-shadow:0 8px 18px var(--tint);
+}
+.answerBtn.selected{
+  border-color: rgba(17,24,39,.22);
+  box-shadow:0 0 0 4px var(--tint);
+  background:var(--tint);
+}
+
+/* ================================
+   Buttons
+   ================================ */
+
+.nav{display:flex;gap:10px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+
+button{
+  border:0;
+  border-radius:12px;
+  padding:10px 14px;
+  font-size:15px;
+  cursor:pointer;
+}
+button:disabled{opacity:.5;cursor:not-allowed}
+
+.primary{
+  color:white;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
+  box-shadow:0 14px 28px rgba(17,24,39,.16);
+}
+
+.ghost{
+  background:#eef2ff;
+  color:#21305a;
+}
+
+/* ================================
+   Result layout
+   ================================ */
+
+.resultGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:10px 0 12px
+}
+@media (max-width:620px){.resultGrid{grid-template-columns:1fr}}
+
+.pill{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:10px 12px;
+  background:#fff
+}
+.pillLabel{font-size:12px;color:var(--muted)}
+.pillValue{font-size:18px;font-weight:650;margin-top:2px}
+
+.resultCard{
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+  background:#fff;
+  position:relative;
+  overflow:hidden;
+}
+
+/* ================================
+   DYSTOPIAN WORLD THEMES
+   ================================ */
+
+/* Default world (before result) */
+body.theme-default{
+  --bg:#f3f5fa;
+  --card:#ffffff;
+  --shadow:0 10px 28px rgba(20,22,26,.10);
+
+  --accent:#2f6fed;
+  --accent2:#1f55c5;
+  --tint:rgba(47,111,237,.10);
+}
+
+/* When any result theme is applied */
 body[class*="theme-"]{
-  --accent: #5b5ff0;
-  --accent2:#4346d9;
-  --tint: rgba(91,95,240,.10);
-  --cardBorder: rgba(17,24,39,.12);
-
-  --primary: var(--accent);
-  --primary2: var(--accent2);
+  --bg:#f1f3f6;
+  --shadow:0 14px 34px rgba(20,22,26,.16);
 }
 
-/* Primary buttons reflect result */
-body[class*="theme-"] .primary{
-  background: linear-gradient(180deg, var(--accent), var(--accent2));
-  box-shadow: 0 12px 22px rgba(17,24,39,.14);
-}
+/* ---------- CLASS THEMES ---------- */
 
-/* Selected answers */
-body[class*="theme-"] .answerBtn.selected{
-  border-color: rgba(17,24,39,.14);
-  box-shadow: 0 0 0 4px var(--tint);
-  background: var(--tint);
-}
-
-/* Result card emphasis */
-body[class*="theme-"] #resultCard{
-  border: 1px solid var(--cardBorder);
-  box-shadow: 0 14px 28px rgba(17,24,39,.10);
-}
-body[class*="theme-"] .card{
-  border-color: var(--cardBorder);
-}
-/* ---------- CLASS BASE THEMES ---------- */
 body[class*="theme-upper-"]{
-  --accent: #0f172a;
-  --accent2:#111827;
-  --tint: rgba(15,23,42,.10);
+  --accent:#0b1220; --accent2:#111827; --tint:rgba(15,23,42,.14);
 }
 
 body[class*="theme-uppermid-"]{
-  --accent: #1d4ed8;
-  --accent2:#1e40af;
-  --tint: rgba(29,78,216,.12);
+  --accent:#1d4ed8; --accent2:#1e40af; --tint:rgba(29,78,216,.16);
 }
 
 body[class*="theme-middle-"]{
-  --accent: #374151;
-  --accent2:#111827;
-  --tint: rgba(55,65,81,.12);
+  --accent:#334155; --accent2:#0f172a; --tint:rgba(51,65,85,.16);
 }
 
 body[class*="theme-working-"]{
-  --accent: #065f46;
-  --accent2:#064e3b;
-  --tint: rgba(6,95,70,.14);
+  --accent:#065f46; --accent2:#064e3b; --tint:rgba(6,95,70,.18);
 }
 
 body[class*="theme-poverty-"]{
-  --accent: #b45309;
-  --accent2:#92400e;
-  --tint: rgba(180,83,9,.16);
+  --accent:#b45309; --accent2:#92400e; --tint:rgba(180,83,9,.20);
 }
 
 /* ---------- POLICY MODIFIERS ---------- */
-body[class*="-redistributive"]{
-  --accent2: #2563eb;
-  --tint: rgba(37,99,235,.16);
-}
 
-body[class*="-institution"]{
-  --accent2: #334155;
-  --tint: rgba(51,65,85,.14);
-}
+body[class*="-redistributive"]{ --accent2:#2563eb }
+body[class*="-institution"]{ --accent2:#334155 }
+body[class*="-mixed"]{ --accent2:#0f766e }
+body[class*="-individual"]{ --accent2:#7c3aed }
 
-body[class*="-mixed"]{
-  --accent2: #0f766e;
-  --tint: rgba(15,118,110,.16);
-}
+/* ================================
+   RESULT STAMP
+   ================================ */
 
-body[class*="-individual"]{
-  --accent2: #7c3aed;
-  --tint: rgba(124,58,237,.16);
-}
-
-/* Optional: subtle academic label */
-body[class*="theme-"] #screenResult h2::after{
-  content: " — Classification Output";
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  opacity: .75;
+#screenResult .resultCard::after{
+  content:"CLASSIFICATION ASSIGNED";
+  position:absolute;
+  top:14px;
+  right:-44px;
+  transform:rotate(18deg);
+  padding:8px 52px;
+  border:2px solid rgba(17,24,39,.35);
+  background:rgba(255,255,255,.55);
+  color:rgba(17,24,39,.75);
+  font-weight:800;
+  letter-spacing:.12em;
+  font-size:11px;
+  text-transform:uppercase;
+  mix-blend-mode:multiply;
 }
