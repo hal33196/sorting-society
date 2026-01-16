@@ -21,7 +21,7 @@ const polLabel = document.getElementById("polLabel");
 const resultCard = document.getElementById("resultCard");
 const debugPre = document.getElementById("debug");
 
-// Scan overlay
+// Processing overlay
 const scanOverlay = document.getElementById("scanOverlay");
 if (scanOverlay) {
   scanOverlay.classList.add("hidden");
@@ -41,26 +41,23 @@ function show(el) {
   el.classList.remove("hidden");
 }
 
-function setThemeDefault() {
-  // remove any theme-* then apply theme-default
+function clearThemes() {
   document.body.className = document.body.className
     .split(" ")
-    .filter(c => !c.startsWith("theme-"))
+    .filter(c => !c.startsWith("theme-") && c !== "classified")
     .join(" ")
     .trim();
+}
 
+function setThemeDefault() {
+  clearThemes();
   document.body.classList.add("theme-default");
 }
 
 function setThemeResult(classKey, polKey) {
-  // remove any theme-* including theme-default then apply result theme
-  document.body.className = document.body.className
-    .split(" ")
-    .filter(c => !c.startsWith("theme-"))
-    .join(" ")
-    .trim();
-
+  clearThemes();
   document.body.classList.add(`theme-${classKey}-${polKey}`);
+  document.body.classList.add("classified"); // enables watermark/unease styling
 }
 
 function render() {
@@ -99,47 +96,44 @@ function render() {
 }
 
 function collectResponses() {
-  return selections.map((aIdx, qIdx) => ({
-    questionIndex: qIdx,
-    answerIndex: aIdx,
-  }));
+  return selections.map((aIdx, qIdx) => ({ questionIndex: qIdx, answerIndex: aIdx }));
 }
 
 function showScanOverlay() {
+  if (!scanOverlay) return { msgTimer: null, barTimer: null };
+
   scanOverlay.classList.remove("hidden");
   scanOverlay.setAttribute("aria-hidden", "false");
+  if (scanBarFill) scanBarFill.style.width = "0%";
 
-  // Reset bar
-  scanBarFill.style.width = "0%";
-
-  // Little rotating messages
   const msgs = [
     "Evaluating response profile…",
     "Cross-referencing civic indicators…",
     "Computing class alignment…",
     "Assigning policy orientation…",
-    "Finalising registry stamp…"
+    "Stamping registry output…",
   ];
   let i = 0;
-  scanSub.textContent = msgs[i];
+  if (scanSub) scanSub.textContent = msgs[i];
 
   const msgTimer = setInterval(() => {
     i = (i + 1) % msgs.length;
-    scanSub.textContent = msgs[i];
+    if (scanSub) scanSub.textContent = msgs[i];
   }, 260);
 
-  // Animate bar (simple, reliable)
   let p = 0;
   const barTimer = setInterval(() => {
-    p += 7 + Math.random() * 9; // 7–16
+    p += 9 + Math.random() * 10; // 9–19
     if (p > 100) p = 100;
-    scanBarFill.style.width = `${p}%`;
+    if (scanBarFill) scanBarFill.style.width = `${p}%`;
   }, 120);
 
   return { msgTimer, barTimer };
 }
 
 function hideScanOverlay(timers) {
+  if (!scanOverlay) return;
+
   if (timers?.msgTimer) clearInterval(timers.msgTimer);
   if (timers?.barTimer) clearInterval(timers.barTimer);
 
@@ -151,7 +145,7 @@ function finish() {
   const responses = collectResponses();
   const { classKey, polKey, classScores, polScores } = computeResult(responses);
 
-  // Apply result theme BEFORE showing result (so the UI shifts tone)
+  // Apply theme immediately (tone shifts before reveal)
   setThemeResult(classKey, polKey);
 
   classLabel.textContent = CLASS_LABELS[classKey] ?? classKey;
@@ -160,21 +154,17 @@ function finish() {
   resultCard.innerHTML = buildProfileHTML(classKey, polKey);
 
   debugPre.textContent = JSON.stringify(
-    {
-      class: classScores,
-      policy: polScores,
-      result: { classKey, polKey },
-    },
+    { class: classScores, policy: polScores, result: { classKey, polKey } },
     null,
     2
   );
 
-  // Show scan overlay briefly, then reveal results
+  // show processing overlay briefly, then reveal results
   const timers = showScanOverlay();
   setTimeout(() => {
     hideScanOverlay(timers);
     show(screenResult);
-  }, 1100);
+  }, 1200);
 }
 
 // --- events ---
@@ -221,9 +211,7 @@ copyBtn.addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(text);
     copyBtn.textContent = "Copied!";
-    setTimeout(() => {
-      copyBtn.textContent = "Copy share text";
-    }, 1200);
+    setTimeout(() => (copyBtn.textContent = "Copy share text"), 1200);
   } catch (e) {
     alert(text);
   }
