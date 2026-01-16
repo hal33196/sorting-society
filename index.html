@@ -70,6 +70,16 @@
     </footer>
   </main>
 
+  <!-- Dystopian scan overlay -->
+  <div id="scanOverlay" class="scan hidden" aria-hidden="true">
+    <div class="scanBox">
+      <div class="scanTitle">PROCESSING CLASSIFICATION</div>
+      <div class="scanSub" id="scanSub">Evaluating response profile…</div>
+      <div class="scanBar"><div class="scanBarFill" id="scanBarFill"></div></div>
+      <div class="scanFine">Sorting Society / Civic Registry Interface</div>
+    </div>
+  </div>
+
   <!-- Load data first, then app -->
   <script defer src="questions.js"></script>
   <script defer src="profiles.js"></script>
@@ -77,4 +87,3 @@
   <script defer src="app.js"></script>
 </body>
 </html>
-
