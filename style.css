@@ -45,6 +45,101 @@ button:disabled{opacity:.5;cursor:not-allowed}
 pre{white-space:pre-wrap;word-break:break-word;background:#0f172a;color:#e2e8f0;border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.08)}
 .footer{margin-top:16px;text-align:center;color:var(--muted)}
 .fine{color:var(--muted);font-size:13px;margin-top:10px}
-* {
-  pointer-events: auto !important;
+
+/* ==================================
+   Result Themes (class + policy)
+   body class: theme-<class>-<policy>
+   ================================== */
+
+body[class*="theme-"]{
+  --accent: #5b5ff0;
+  --accent2:#4346d9;
+  --tint: rgba(91,95,240,.10);
+  --cardBorder: rgba(17,24,39,.12);
+
+  --primary: var(--accent);
+  --primary2: var(--accent2);
+}
+
+/* Primary buttons reflect result */
+body[class*="theme-"] .primary{
+  background: linear-gradient(180deg, var(--accent), var(--accent2));
+  box-shadow: 0 12px 22px rgba(17,24,39,.14);
+}
+
+/* Selected answers */
+body[class*="theme-"] .answerBtn.selected{
+  border-color: rgba(17,24,39,.14);
+  box-shadow: 0 0 0 4px var(--tint);
+  background: var(--tint);
+}
+
+/* Result card emphasis */
+body[class*="theme-"] #resultCard{
+  border: 1px solid var(--cardBorder);
+  box-shadow: 0 14px 28px rgba(17,24,39,.10);
+}
+body[class*="theme-"] .card{
+  border-color: var(--cardBorder);
+}
+/* ---------- CLASS BASE THEMES ---------- */
+body[class*="theme-upper-"]{
+  --accent: #0f172a;
+  --accent2:#111827;
+  --tint: rgba(15,23,42,.10);
+}
+
+body[class*="theme-uppermid-"]{
+  --accent: #1d4ed8;
+  --accent2:#1e40af;
+  --tint: rgba(29,78,216,.12);
+}
+
+body[class*="theme-middle-"]{
+  --accent: #374151;
+  --accent2:#111827;
+  --tint: rgba(55,65,81,.12);
+}
+
+body[class*="theme-working-"]{
+  --accent: #065f46;
+  --accent2:#064e3b;
+  --tint: rgba(6,95,70,.14);
+}
+
+body[class*="theme-poverty-"]{
+  --accent: #b45309;
+  --accent2:#92400e;
+  --tint: rgba(180,83,9,.16);
+}
+
+/* ---------- POLICY MODIFIERS ---------- */
+body[class*="-redistributive"]{
+  --accent2: #2563eb;
+  --tint: rgba(37,99,235,.16);
+}
+
+body[class*="-institution"]{
+  --accent2: #334155;
+  --tint: rgba(51,65,85,.14);
+}
+
+body[class*="-mixed"]{
+  --accent2: #0f766e;
+  --tint: rgba(15,118,110,.16);
+}
+
+body[class*="-individual"]{
+  --accent2: #7c3aed;
+  --tint: rgba(124,58,237,.16);
+}
+
+/* Optional: subtle academic label */
+body[class*="theme-"] #screenResult h2::after{
+  content: " — Classification Output";
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .75;
 }
