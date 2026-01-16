@@ -223,6 +223,8 @@ body[class*="theme-"] #screenResult h2::after{
   z-index:9999;
 }
 
+.scan.hidden { display: none !important; }
+
 .scanBox{
   width:min(520px, calc(100vw - 28px));
   background:rgba(255,255,255,.92);
